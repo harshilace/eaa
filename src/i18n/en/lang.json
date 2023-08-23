@@ -2,5 +2,9 @@
   "welcome": "Welcome to NestJs.",
   "user": {
     "list": "User list getting successfully."
+  },
+  "auth": {
+    "success": "User logged successfully.",
+    "failed": "Email & password not match!!"
   }
 }
