@@ -4,8 +4,10 @@ import { SignInDto } from './dto/sign.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { I18n, I18nContext } from 'nestjs-i18n';
 import { Public } from 'src/decorators/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
 
@@ -14,11 +16,15 @@ export class AuthController {
     @Post('login')
     @UseInterceptors(FileInterceptor('file', {}))
     async signIn(@Body() signInDto: SignInDto, @I18n() i18n: I18nContext) {
-        return this.authService.signIn(signInDto.email, signInDto.password);
-        // const user = await this.authService.signIn(signInDto.email, signInDto.password);
-        // return {
-        //     'user' : user,
-        //     'message' : i18n.t(`lang.auth.success`)
-        // }
+        const user = await this.authService.signIn(signInDto.email, signInDto.password);
+        if (user) {
+            return {
+                'user': user,
+                'message': i18n.t(`lang.auth.success`)
+            }
+        }
+        return {
+            'message': i18n.t(`lang.auth.failed`)
+        }
     }
 }

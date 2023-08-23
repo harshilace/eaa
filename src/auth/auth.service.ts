@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
@@ -19,6 +19,6 @@ export class AuthService {
           access_token: await this.jwtService.signAsync(payload),
         };
       }
-      throw new UnauthorizedException();
+      return null;
     }
 }

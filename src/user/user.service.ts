@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,20 +8,25 @@ export class UserService {
     constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
 
     async getUsers(): Promise<User[]> {
-        return await this.userRepository.find();
+        const fields = ['user.user_id', 'user.name', 'user.email', 'user.created_at'];
+        const users = await this.userRepository.createQueryBuilder('user')
+            .select(fields)
+            .getMany();
+
+        return users;
     }
 
     async getUser(user_id): Promise<User | null> {
-        let id = Number(user_id);
-        const user = await this.userRepository.findOneBy({user_id});
-        if (user) {
-            return user;
-        }
-        throw new HttpException('User does not exist!', 404);
+        const fields = ['user.user_id', 'user.name', 'user.email', 'user.created_at'];
+        const user = await this.userRepository.createQueryBuilder('user')
+            .select(fields)
+            .where({ user_id })
+            .getOne();
+        return user;
     }
 
     async findOne(email: string): Promise<User | undefined> {
-        const user = await this.userRepository.findOneBy({'email': email});
+        const user = await this.userRepository.findOneBy({ 'email': email });
         return user;
     }
 }
