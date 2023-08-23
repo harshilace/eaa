@@ -1,5 +1,6 @@
 {
   "welcome": "Welcome to NestJs.",
+  "data_success": "Data get successfully.",
   "user": {
     "list": "User list getting successfully.",
     "not_found": "User does not exist!"

@@ -3,16 +3,15 @@ import { UserService } from './user.service';
 import { I18n, I18nContext } from 'nestjs-i18n';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@Controller('user')
 @ApiTags('User')
 @ApiBearerAuth()
-@Controller('user')
 export class UserController {
     constructor(private userService: UserService) { }
     
-    @ApiResponse({ status: 200, description: 'User list getting successfully.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized.'})
     @Get('/list')
+    @ApiResponse({ status: 200, description: 'User list getting successfully.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized.'})
     async getUsers(@I18n() i18n: I18nContext) {
         const users = await this.userService.getUsers();
         return {
@@ -22,12 +21,15 @@ export class UserController {
     }
 
     @Get(':userID')
+    @ApiResponse({ status: 200, description: 'Data get successfully.'})
+    @ApiResponse({ status: 403, description: 'User does not exist!.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized.'})
     async getUser(@Param('userID', ParseIntPipe) userID: Number, @I18n() i18n: I18nContext) {
         const user = await this.userService.getUser(userID);
         if (user) {
             return {
                 'user' : user,
-                'message' : i18n.t(`lang.user.list`)
+                'message' : i18n.t(`lang.data_success`)
             };
         }
         throw new HttpException(i18n.t(`lang.user.not_found`), 404);
