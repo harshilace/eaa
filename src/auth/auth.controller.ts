@@ -3,12 +3,14 @@ import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { I18n, I18nContext } from 'nestjs-i18n';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
 
     @HttpCode(HttpStatus.OK)
+    @Public()
     @Post('login')
     @UseInterceptors(FileInterceptor('file', {}))
     async signIn(@Body() signInDto: SignInDto, @I18n() i18n: I18nContext) {
