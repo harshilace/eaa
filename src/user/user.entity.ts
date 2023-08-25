@@ -8,22 +8,22 @@ export class User {
     user_id: number;
 
     @Column()
-    name:string;
+    name: string;
 
-    @Column({ unique: true}) 
-    email:string;
+    @Column({ unique: true })
+    email: string;
 
     @Column()
-        password:string;
+    password: string;
 
-    @CreateDateColumn({ nullable: true }) 
-    created_at:Date;
+    @CreateDateColumn({ nullable: true })
+    created_at: Date;
 
-    @UpdateDateColumn({ nullable: true }) 
-    updated_at:Date;
+    @UpdateDateColumn({ nullable: true })
+    updated_at: Date;
 
-    @DeleteDateColumn({ nullable: true }) 
-    deleted_at:Date;
+    @DeleteDateColumn({ nullable: true })
+    deleted_at: Date;
 
     constructor(partial: Partial<User>) {
         Object.assign(this, partial);

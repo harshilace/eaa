@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -28,5 +28,11 @@ export class AuthController {
         return {
             'message': i18n.t(`lang.auth.failed`)
         }
+    }
+
+    @Get('logout')
+    async logout(@Body() body) {
+        console.log(body)
+        return this.authService.logout(body.refreshToken);
     }
 }

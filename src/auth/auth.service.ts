@@ -21,4 +21,16 @@ export class AuthService {
       }
       return null;
     }
+
+    async logout(refreshStr): Promise<void> {
+      // const refreshToken = await this.retrieveRefreshToken(refreshStr);
+  
+      // if (!refreshToken) {
+      //   return;
+      // }
+      // // delete refreshtoken from db
+      // this.refreshTokens = this.refreshTokens.filter(
+      //   (refreshToken) => refreshToken.id !== refreshToken.id,
+      // );
+    }
 }
